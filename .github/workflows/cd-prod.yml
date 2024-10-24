@@ -19,6 +19,9 @@ jobs:
           username: ${{ secrets.SSH_USER_NAME_PRODUCTION }}
           key: ${{ secrets.SSH_PRIVATE_KEY_PRODUCTION }}
           script: |
+
+            sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+
             if [ -d "${{ vars.APP_PROD_PATH }}" ]; then
               cd ${{ vars.APP_PROD_PATH }}
               sudo docker compose down pacmusic-prod
@@ -39,4 +42,6 @@ jobs:
             sudo docker compose up --build --detach pacmusic-prod
 
       - name: Test application endpoint
-        run: curl ${{ secrets.PROD_URL }}
+        run: |
+          sleep 20
+          curl ${{ secrets.PROD_URL }}
