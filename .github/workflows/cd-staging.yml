@@ -36,4 +36,6 @@ jobs:
             sudo docker compose up --build --detach pacmusic-stg
 
       - name: Test application endpoint
-        run: curl ${{ secrets.STG_URL }}
+        run: |
+          sleep 10
+          curl ${{ secrets.STG_URL }}
