@@ -1,4 +1,5 @@
 name: Deploy Staging 🚀
+
 on:
   push:
     branches:
@@ -6,14 +7,12 @@ on:
 
 jobs:
   deploy-to-staging:
-    runs-on: centos-latest
+    runs-on: ubuntu-latest
     environment: staging
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
 
-      - name: Run SSH Command to Deploy
-        uses: appleboy/ssh-action@v0.1.9
+    steps:
+      - name: Execute deployment script on staging server
+        uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.SSH_HOST_STAGING }}
           username: ${{ secrets.SSH_USER_NAME_STAGING }}
@@ -29,12 +28,12 @@ jobs:
               cd ${{ vars.APP_STG_PATH }}
             fi
 
-            echo "APP_STG_PORT=${{ secrets.APP_STG_PORT }}" > .env
+            echo "APP_STG_PORT=${{ secrets.APP_STG_PORT }}" >> .env
             echo "MINIO_STG_ENDPOINT=${{ secrets.MINIO_STG_ENDPOINT }}" >> .env
             echo "MINIO_STG_ACCESS_KEY=${{ secrets.MINIO_STG_ACCESS_KEY }}" >> .env
             echo "MINIO_STG_SECRET_KEY=${{ secrets.MINIO_STG_SECRET_KEY }}" >> .env
 
             sudo docker compose up --build --detach pacmusic-stg
 
-      - name: Test Hit Endpoint
+      - name: Test application endpoint
         run: curl ${{ secrets.STG_URL }}
