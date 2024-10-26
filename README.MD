@@ -31,7 +31,7 @@ The repository includes:
 To clone and run the project locally:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/hudiyaresa/PacMusic-DevOps-CICD.git
 cd pacmusic
 docker-compose up --build
 ```
