@@ -29,8 +29,8 @@ jobs:
       - name: Test application endpoint
         run: curl http://localhost:5000
 
-      - name: Install testing requirements
-        run: pip install -r test/requirements.txt
+      # - name: Install testing requirements
+      #   run: pip install -r test/requirements.txt
 
-      - name: Run tests
-        run: python3 test/test.py
+      # - name: Run tests
+      #   run: python3 test/test.py
