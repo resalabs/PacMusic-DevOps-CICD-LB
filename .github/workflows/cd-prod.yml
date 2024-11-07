@@ -44,4 +44,5 @@ jobs:
       - name: Test application endpoint
         run: |
           sleep 20
-          curl ${{ secrets.PROD_URL }}
+          curl -f ${{ secrets.PROD_URL_1 }}
+          curl -f ${{ secrets.PROD_URL_2 }}
