@@ -80,12 +80,13 @@ services:
       - ./nginx/sites-enabled:/etc/nginx/sites-enabled:ro
       - ./nginx/sites-available:/etc/nginx/sites-available:ro
       - /etc/letsencrypt:/etc/letsencrypt
-    network_mode: host
     depends_on:
       - pacmusic-stg-1
       - pacmusic-stg-2
       - pacmusic-prod-1
       - pacmusic-prod-2
+    networks:
+      - pacmusic-network
 
   certbot:
     image: certbot/certbot
@@ -93,7 +94,7 @@ services:
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/lib/letsencrypt:/var/lib/letsencrypt
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h; done;'"
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 6h; done;'"
     networks:
       - pacmusic-network
 

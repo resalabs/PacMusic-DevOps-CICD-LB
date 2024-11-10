@@ -1,31 +1,25 @@
-# Nginx config for staging
+upstream pacmusic-staging {
+    server localhost:5002;
+    server localhost:5003;
+}
+
 server {
+    listen 443 ssl;
     server_name stg.pacmusic.groups.id;
 
     location / {
         proxy_pass http://pacmusic-staging;
     }
 
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/stg.pacmusic.groups.id/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/stg.pacmusic.groups.id/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-    
-}
-
-upstream pacmusic-staging {
-    ip_hash;
-    server localhost:5002;
-    server localhost:5003;
+    ssl_certificate /etc/letsencrypt/live/stg.pacmusic.groups.id/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/stg.pacmusic.groups.id/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 }
 
 server {
-    if ($host = stg.pacmusic.groups.id) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
     listen 80;
-    server_name stg.pacmusic.groups.id; # managed by Certbot
-
+    listen [::]:80;
+    server_name stg.pacmusic.groups.id;
+    return 301 https://$host$request_uri;
 }
