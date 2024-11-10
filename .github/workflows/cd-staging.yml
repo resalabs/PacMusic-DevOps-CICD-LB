@@ -8,7 +8,7 @@ on:
 jobs:
   deploy-to-staging:
     runs-on: ubuntu-latest
-    environment: Deploy to staging server
+    environment: staging
 
     steps:
       - name: Execute deployment script on staging server
