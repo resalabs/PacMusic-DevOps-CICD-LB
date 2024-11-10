@@ -18,8 +18,8 @@ jobs:
           username: ${{ secrets.SSH_USER_NAME_STAGING }}
           key: ${{ secrets.SSH_PRIVATE_KEY_STAGING }}
           script: |
-            if [ -d "${{ vars.APP_STG_PATH }}" ]; then
-              cd ${{ vars.APP_STG_PATH }}
+            if [ -d "${{ secrets.APP_STG_PATH }}" ]; then
+              cd ${{ secrets.APP_STG_PATH }}
               sudo docker compose down
               git pull origin main
             else
