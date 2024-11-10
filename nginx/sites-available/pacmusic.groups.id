@@ -1,29 +1,25 @@
+upstream pacmusic-production {
+    server localhost:5000;
+    server localhost:5001;
+}
+
+server {
+    listen 443 ssl;
+    server_name pacmusic.groups.id;
+
+    location / {
+        proxy_pass http://pacmusic-production;
+    }
+
+    ssl_certificate /etc/letsencrypt/live/pacmusic.groups.id/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/pacmusic.groups.id/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+}
+
 server {
     listen 80;
+    listen [::]:80;
     server_name pacmusic.groups.id;
-    return 301 https://$host$request_uri;  # Redirect all HTTP traffic to HTTPS
-
-}
-
-upstream pacmusic-production {
-	ip_hash;
-	server localhost:5000;
-	server localhost:5001;
-	
-}
-
-server {
-    listen 443 ssl; # managed by Certbot
-    server_name pacmusic.groups.id;
-	
-	location / {
-        proxy_pass http://pacmusic-production;
-    }	
-
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/pacmusic.groups.id/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/pacmusic.groups.id/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-
+    return 301 https://$host$request_uri;
 }
