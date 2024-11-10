@@ -24,8 +24,8 @@ jobs:
               git pull origin main
             else
               ssh-keyscan github.com > ~/.ssh/known_hosts
-              git clone ${{ secrets.GIT_URL }} ${{ vars.APP_STG_PATH }}
-              cd ${{ vars.APP_STG_PATH }}
+              git clone ${{ secrets.GIT_URL }} ${{ secrets.APP_STG_PATH }}
+              cd ${{ secrets.APP_STG_PATH }}
             fi
 
             echo "APP_STG_PORT_1=${{ secrets.APP_STG_PORT_1 }}" > .env
